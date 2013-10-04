@@ -33,3 +33,26 @@ test("returns the selector text for a nested object with a class attribute", fun
     return ok(false, "Threw exception");
   }
 });
+
+module("getTextFromDescendantContent", {
+  setup: function () {
+    this.fixture_ = document.getElementById('qunit-fixture');
+  }
+});
+test("returns text from the descendants of the element", function() {
+  var targetNode = document.createElement('label');
+  var childNode = document.createElement('input');
+  childNode.setAttribute('type', 'radio');
+  childNode.setAttribute('id', 'reason_Screenshot');
+  childNode.setAttribute('name', 'reason');
+  childNode.setAttribute('value', 'Screenshot');
+  targetNode.appendChild(childNode);
+  this.fixture_.appendChild(targetNode);
+
+  try {
+    equal(axs.properties.getTextFromDescendantContent(targetNode), "");
+    return ok(true);
+  } catch( e ) {
+    return ok(false, "Threw exception: " + e);
+  }
+});
